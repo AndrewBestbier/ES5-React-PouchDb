@@ -1,16 +1,28 @@
-# FirstCouchPouch Spec
+### To run navigate to http://localhost:8080 and run
 
-###Problem Introduction
-Create a basic survey that asks 5 questions. 
-Possible questions could be: 
+```sh
+$ npm install
+$ npm start
+```
 
-  - Rate your JS level
-  - What frameworks do you use?
+### To run development with hot-loading:
+```sh
+$ npm run dev
+```
 
-###Problem requirements
-  - Save the answers to these questions.
-  - Display all results for each question.
-  - Build as a single page app with React and PouchDB
-  - Use webpack on the backend with a basic hapi or express.js app that serves the app
-  - Then you can use PouchDB’s map/reduce to summaries the data and display it
-  - If you can build that along with some nice tests using mocha you will be ready to go
+### To build for production:
+```sh
+$ npm run build
+```
+### To run the tests:
+
+```sh
+$ npm run test
+```
+
+There can be some problems with running tests depending ont the version of Node you are using. 
+To downgrade your version of node, use the n package as follows:
+
+npm install -g n   # Install n globally
+n 0.10             # Installing the correct version of node
+This can result in some weird problems with your current packages, so delete your node_modules folder and perform a clean install.

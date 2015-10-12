@@ -1,0 +1,23 @@
+body{
+	background-color: #F3F3F3;
+	padding-top: 100px;
+}
+
+
+.panel-default {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+.panel-default {
+    height: 200px;
+}
+
+
+.loader {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+}
