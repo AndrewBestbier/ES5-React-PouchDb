@@ -37,7 +37,7 @@ var Survey = React.createClass({
 		        alert("Thanks for your submission");
 		      }
 		  });
-		
+
 	},
 
     render: function() {

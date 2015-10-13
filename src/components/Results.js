@@ -21,7 +21,7 @@ var Survey = React.createClass({
 
 		var resultsObject = {
         	currentlyUsing: [
-        		{	
+        		{
         			//Angular
         			value: 0,
         			label: 'Angular',
@@ -37,7 +37,7 @@ var Survey = React.createClass({
         		}
         	],
         	interestedUsing: [
-        		{	
+        		{
         			//Angular
         			value: 0,
         			label: 'Angular',
@@ -53,7 +53,7 @@ var Survey = React.createClass({
         		}
         	],
         	usingES6: [
-        		{	
+        		{
         			//True
         			value: 0,
         			label: 'Using ES6',
@@ -69,7 +69,7 @@ var Survey = React.createClass({
         		}
         	],
         	yearsExperience: [
-        		{	
+        		{
         			//True
         			value: 0,
         			label: 'One Year',
@@ -88,7 +88,7 @@ var Survey = React.createClass({
 
 		db.allDocs({include_docs: true, descending: true}, function(err, doc) {
 		    doc.rows.forEach(function(row){
-		    	
+
 		    	//Mapping the frameworks they are currently using
 		    	if(row.doc.currentlyUsing === "angular"){
 		    		resultsObject.currentlyUsing[0].value += 1;
@@ -108,15 +108,15 @@ var Survey = React.createClass({
 		    		resultsObject.usingES6[0].value += 1;
 		    	} else {
 		    		resultsObject.usingES6[1].value += 1;
-		    	} 
+		    	}
 
 		    	//Mapping their years of experience
 		    	if(row.doc.yearsExperience === 1){
 		    		resultsObject.yearsExperience[0].value += 1;
 		    	} else if (row.doc.yearsExperience === 2) {
 		    		resultsObject.yearsExperience[1].value += 1;
-		    	} 
-		    	
+		    	}
+
 		    })
 
 		    //Setting the results into the state
@@ -124,17 +124,17 @@ var Survey = React.createClass({
 		    	results: resultsObject
 		    })
 
-		}.bind(this)); 
+		}.bind(this));
 	},
 
     render: function() {
 
     	if(Object.keys(this.state.results).length === 0){
-    		return ( 
+    		return (
     			<h2>There is no data to display </h2>
     		)
     	} else {
-    		return ( 
+    		return (
     			<div>
     				<Panel>
     					<h4>Which of these frameworks are you currently using the most?</h4>
