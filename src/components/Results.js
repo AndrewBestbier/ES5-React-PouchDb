@@ -17,6 +17,13 @@ var Survey = React.createClass({
 	},
 
 	componentDidMount: function(){
+    //GN: THis is all business logic.
+    // Don't stick this in a React component. Rather put is in some plain javascript files 
+    // eg src/api/survey.js
+    // Then that module just has two functions one is save survey and another is getSurveyResults
+    // Then all that the React components do is get the results on a render and display them
+    // You always want to keep your components as dumb as possible
+
 		var db = new PouchDB('SurveyResults');
 
 		var resultsObject = {
@@ -86,6 +93,28 @@ var Survey = React.createClass({
         	]
 	    };
 
+    //GN: You can fix this up in two ways. The first would be to use a map reduce view (I think you mentioned that)
+      //or you can do a a cool function reduce function (you will have to read up on reduce). Checkout underscore.js
+      // something like:
+      // return docs.rows.reduce(function (results, row) {
+      //
+      //    ['currentlyUsing', 'interestedUsing', 'usingES6', 'yearsExperience'].forEach(function (section) {
+      //       if (!results[section][row[section]]) {
+      //        results[section][row[section]] = 1
+      //
+      //       } else {
+      //       results[section][row[section]] += 1;
+      //
+      //       }
+      //    });
+      //
+      //    return results;
+      //
+      // }, {});
+      // You will have to adjust your resultsObject a bit to fit that. But its so much neater code. 
+      // And you can later convert to an array for the charts.
+      
+      
 		db.allDocs({include_docs: true, descending: true}, function(err, doc) {
 		    doc.rows.forEach(function(row){
 		    	

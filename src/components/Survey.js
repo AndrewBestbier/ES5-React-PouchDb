@@ -19,6 +19,7 @@ var Survey = React.createClass({
 		var usingES6 = Boolean(this.refs.usingES6.getValue());
 		var yearsExperience = parseInt(this.refs.yearsExperience.getValue());
 
+    //GN: This saving shouldn't be in her as I mention in the results.js page. You need to create a api module that does this all for you.
 		var db = new PouchDB('SurveyResults');
 
 		var submission = {
@@ -30,6 +31,8 @@ var Survey = React.createClass({
 		  };
 
 
+      //GN: Have you ever used promises before? They are way better than callbacks. I recommend reading up on them and converting this to a promise.
+      //Promises save lives :)
 		  db.put(submission, function callback(err, result) {
 		      if (err) {
 		        alert("There was a problem submitting this form");
