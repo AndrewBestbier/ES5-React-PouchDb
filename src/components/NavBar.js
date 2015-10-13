@@ -12,7 +12,8 @@ var NavBar = React.createClass({
         	        <div className="navbar-header">
         	        <div id="navbar" className="navbar-collapse collapse">
                     	<ul className="nav navbar-nav">
-                    		<li><a href="#">FirstCouchPouch</a></li>
+                    		<li><a href="survey">Survey</a></li>
+                            <li><a href="results">Results</a></li>
                     	</ul>
                   	</div>
         	        </div>

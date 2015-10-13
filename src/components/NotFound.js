@@ -13,7 +13,7 @@ var NotFound = React.createClass({
       <Title title='Not Found'>
         <div>
           <h1>404 Not Found</h1>
-          <Link to='Home'>Home</Link>
+          <Link to='Survey'>Home</Link>
         </div>
       </Title>
     );
