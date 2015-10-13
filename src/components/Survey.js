@@ -31,11 +31,11 @@ var Survey = React.createClass({
 
 
 		  db.put(submission, function callback(err, result) {
-		    if (err) {
-		      alert("There was a problem submitting this form");
-		    } else {
-		      alert("Thanks for your submission");
-		    }
+		      if (err) {
+		        alert("There was a problem submitting this form");
+		      } else {
+		        alert("Thanks for your submission");
+		      }
 		  });
 		
 	},
@@ -45,29 +45,20 @@ var Survey = React.createClass({
         return (
         	<Panel>
 	            <Input type="select" label="Which of these frameworks are you currently using the most?" ref="currentlyUsing">
-			      <option value="node">Node</option>
 			      <option value="angular">Angular</option>
-			      <option value="node">Express</option>
 			      <option value="react">React</option>
-			      <option value="meteor">Meteor</option>
 			    </Input>
 			    <Input type="select" label="Which of these frameworks are you most interested in using?" ref="interestedUsing">
-			      <option value="node">Node</option>
 			      <option value="angular">Angular</option>
-			      <option value="node">Express</option>
 			      <option value="react">React</option>
-			      <option value="meteor">Meteor</option>
 			    </Input>
 			    <Input type="select" label="Are you using ES6?" placeholder="select" ref="usingES6">
 			      <option value="true">Yes</option>
 			      <option value="false">No</option>
 			    </Input>
 			    <Input type="select" label="How many years of Javascript experience do you have?" ref="yearsExperience">
-			      <option value="0">0-1</option>
-			      <option value="1">1-2</option>
-			      <option value="2">2-3</option>
-			      <option value="3">3-4</option>
-			      <option value="4">4+</option>
+			      <option value="1">0-1</option>
+			      <option value="2">1-2</option>
 			    </Input>
 			    <ButtonInput type="submit" value="Submit" bsSize="medium" onClick={this.handleSubmit} />
 		    </Panel>

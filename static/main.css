@@ -17,3 +17,7 @@ body{
   left: 0;
   z-index: 9999;
 }
+
+.panel-body {
+	text-align: center
+}
