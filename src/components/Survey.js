@@ -1,7 +1,7 @@
 "use strict";
 
 var React = require('react');
-var PouchDB = require('pouchdb');
+var Api = require('../api/Api');
 
 /* Component Imports */
 var Panel = require('react-bootstrap').Panel;
@@ -11,7 +11,6 @@ var ButtonInput = require('react-bootstrap').ButtonInput;
 /* React Component */
 var Survey = React.createClass({
 
-
 	handleSubmit: function(){
 
 		var currentlyUsing = this.refs.currentlyUsing.getValue();
@@ -19,28 +18,7 @@ var Survey = React.createClass({
 		var usingES6 = Boolean(this.refs.usingES6.getValue());
 		var yearsExperience = parseInt(this.refs.yearsExperience.getValue());
 
-    //GN: This saving shouldn't be in her as I mention in the results.js page. You need to create a api module that does this all for you.
-		var db = new PouchDB('SurveyResults');
-
-		var submission = {
-		    _id: new Date().toISOString(),
-		    currentlyUsing: currentlyUsing,
-		    interestedUsing: interestedUsing,
-		    usingES6: usingES6,
-		    yearsExperience: yearsExperience
-		  };
-
-
-      //GN: Have you ever used promises before? They are way better than callbacks. I recommend reading up on them and converting this to a promise.
-      //Promises save lives :)
-		  db.put(submission, function callback(err, result) {
-		      if (err) {
-		        alert("There was a problem submitting this form");
-		      } else {
-		        alert("Thanks for your submission");
-		      }
-		  });
-
+		Api.saveSurvey(currentlyUsing, interestedUsing, usingES6, yearsExperience);
 	},
 
     render: function() {

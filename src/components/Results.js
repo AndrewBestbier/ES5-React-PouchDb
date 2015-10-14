@@ -18,11 +18,12 @@ var Survey = React.createClass({
 
 	componentDidMount: function(){
     //GN: THis is all business logic.
-    // Don't stick this in a React component. Rather put is in some plain javascript files 
+    // Don't stick this in a React component. Rather put is in some plain javascript files
     // eg src/api/survey.js
     // Then that module just has two functions one is save survey and another is getSurveyResults
     // Then all that the React components do is get the results on a render and display them
     // You always want to keep your components as dumb as possible
+
 
 		var db = new PouchDB('SurveyResults');
 
@@ -33,14 +34,14 @@ var Survey = React.createClass({
         			value: 0,
         			label: 'Angular',
         			color:"#F7464A",
-  	        		highlight: "#FF5A5E",
+  	        	highlight: "#FF5A5E",
         		},
         		{
         			//React
         			value: 0,
         			label: 'React',
         			color: "#46BFBD",
-  	        		highlight: "#5AD3D1",
+  	        	highlight: "#5AD3D1",
         		}
         	],
         	interestedUsing: [
@@ -49,14 +50,14 @@ var Survey = React.createClass({
         			value: 0,
         			label: 'Angular',
         			color:"#F7464A",
-  	        		highlight: "#FF5A5E",
+  	        	highlight: "#FF5A5E",
         		},
         		{
         			//React
         			value: 0,
         			label: 'React',
         			color: "#46BFBD",
-  	        		highlight: "#5AD3D1",
+  	        	highlight: "#5AD3D1",
         		}
         	],
         	usingES6: [
@@ -72,7 +73,7 @@ var Survey = React.createClass({
         			value: 0,
         			label: 'Using ES6',
         			color: "#46BFBD",
-  	        		highlight: "#5AD3D1",
+  	        	highlight: "#5AD3D1",
         		}
         	],
         	yearsExperience: [
@@ -81,17 +82,18 @@ var Survey = React.createClass({
         			value: 0,
         			label: 'One Year',
         			color:"#F7464A",
-  	        		highlight: "#FF5A5E",
+  	        	highlight: "#FF5A5E",
         		},
         		{
         			//False
         			value: 0,
         			label: 'Two Years',
         			color: "#46BFBD",
-  	        		highlight: "#5AD3D1",
+  	        	highlight: "#5AD3D1",
         		}
         	]
 	    };
+
 
     //GN: You can fix this up in two ways. The first would be to use a map reduce view (I think you mentioned that)
       //or you can do a a cool function reduce function (you will have to read up on reduce). Checkout underscore.js
@@ -111,10 +113,10 @@ var Survey = React.createClass({
       //    return results;
       //
       // }, {});
-      // You will have to adjust your resultsObject a bit to fit that. But its so much neater code. 
+      // You will have to adjust your resultsObject a bit to fit that. But its so much neater code.
       // And you can later convert to an array for the charts.
-      
-      
+
+
 		db.allDocs({include_docs: true, descending: true}, function(err, doc) {
 		    doc.rows.forEach(function(row){
 
