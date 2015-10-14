@@ -2,6 +2,7 @@
 
 var React = require('react');
 var PouchDB = require('pouchdb');
+var Api = require('../api/Api');
 
 /* Component Imports */
 var Panel = require('react-bootstrap').Panel;
@@ -24,6 +25,11 @@ var Survey = React.createClass({
     // Then all that the React components do is get the results on a render and display them
     // You always want to keep your components as dumb as possible
 
+		Api.getSurveyResults().then(function(result){
+			//console.log(result);
+		}).catch(function (err) {
+	    //console.log(err);
+  })
 
 		var db = new PouchDB('SurveyResults');
 
