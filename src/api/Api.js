@@ -3,13 +3,6 @@ var PouchDB = require('pouchdb');
 var db = new PouchDB('SurveyResults');
 var _ = require('underscore');
 
-var resultsObject = {
-  currentlyUsing: [],
-  interestedUsing: [],
-  usingES6: [],
-  yearsExperience: []
-};
-
 var coloursArray = [{
   color: "#F7464A",
   highlight: "#FF5A5E"
@@ -18,15 +11,10 @@ var coloursArray = [{
   highlight: "#5AD3D1"
 }]
 
-var Api = {
+module.exports = {
   saveSurvey: function(currentlyUsing, interestedUsing, usingES6, yearsExperience) {
 
-    //GN: There needs to be some error checking here to make sure this is called correctly
-    //Dates are not great id's what happens later if someone saves a survey at the exact same time. We will get a collision.
-    // Rather let PouchDB autogenerate an _id and have a date field.
-
     var submission = {
-      _id: new Date().toISOString(),
       currentlyUsing: currentlyUsing,
       interestedUsing: interestedUsing,
       usingES6: usingES6,
@@ -44,18 +32,29 @@ var Api = {
   },
 
   getSurveyResults: function() {
+    var resultsObject = this.createEmptyResultsObject();
+
     return db.allDocs({
       include_docs: true
     }).then(function(result) {
-      this.sumAndFormatResults(result.rows);
+      this.populateResultsObjectWithData(result.rows, resultsObject);
       return resultsObject;
     }.bind(this))
   },
 
-  sumAndFormatResults: function(rows) {
-    var _this = this;
+  createEmptyResultsObject: function(){
+      var emptyResultsObject = {
+        currentlyUsing: [],
+        interestedUsing: [],
+        usingES6: [],
+        yearsExperience: []
+      };
+      return emptyResultsObject;
+  },
+
+  populateResultsObjectWithData: function(rows, resultsObject) {
     _.each(rows, function(row) {
-      _.each(Object.keys(resultsObject), function(key) {
+      _.each(resultsObject, function(array, key) {
         var answer = row.doc[key]
 
         var result = _.findWhere(resultsObject[key], {
@@ -63,15 +62,15 @@ var Api = {
         });
 
         if (!result) {
-          _this.createResultsObject(answer, key);
+          this.createAnswerEntry(answer, key, resultsObject);
         } else {
           result.value += 1;
         }
-      })
-    })
+      }, this)
+    }, this)
   },
 
-  createResultsObject: function(answer, key) {
+  createAnswerEntry: function(answer, key, resultsObject) {
     resultsObject[key].push({
       label: answer,
       value: 1,
@@ -80,5 +79,3 @@ var Api = {
     })
   }
 };
-
-module.exports = Api;
