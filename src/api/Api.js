@@ -21,8 +21,7 @@ module.exports = {
       yearsExperience: yearsExperience
     };
 
-    //Todo read up on promises and clean this up
-    db.put(submission, function callback(err, result) {
+    db.post(submission, function callback(err, result) {
       if (err) {
         window.alert("There was a problem submitting this form");
       } else {
@@ -35,18 +34,29 @@ module.exports = {
     return db.allDocs({
       include_docs: true
     }).then(function(result) {
+      /* Slimming down the result array of objects to only show the relevent data */
       var docs = result.rows.map(function (row) {return row.doc;});
-      return this.populateResultsObjectWithData(docs);
+      return this.convertRawDataToChartJsFormat(docs);
     }.bind(this));
   },
 
-  createEmptyResultsObject: function(){
-      return {
-        currentlyUsing: [],
-        interestedUsing: [],
-        usingES6: [],
-        yearsExperience: []
-      };
+  convertRawDataToChartJsFormat: function(docs) {
+
+    /*
+     * Underscore's reduce is used, starting with the basis of the scaffolding of the required Chartjs object
+     * The first loop (reduce) is through the rows returned from PouchDB. The second nested loop is through the object properties
+     */
+    return _.reduce(docs, function (resultsObject, doc) {
+      _.each(resultsObject, function(array, key) {
+        var answer = doc[key];
+
+        /* getResultKey() finds the answer in the resultsObject and returns it. If it does not exist, it is created */
+        var result = this.getResultKey(resultsObject, answer, key);
+        result.value += 1;
+      }, this);
+
+      return resultsObject;
+    }, this.createEmptyResultsObject(), this);
   },
 
   getResultKey: function (resultsObject, answer, key) {
@@ -61,18 +71,13 @@ module.exports = {
     return this.createAnswerEntry(answer, key, resultsObject);
   },
 
-  populateResultsObjectWithData: function(docs) {
-    _.reduce(docs, function (resultsObject, doc) {
-      _.each(resultsObject, function(array, key) {
-        var answer = doc[key];
-
-        var result = this.getResultKey(resultsObject, answer, key);
-        result.value += 1;
-
-      }, this);
-
-      return resultsObject;
-    }, this.createEmptyResultsObject());
+  createEmptyResultsObject: function(){
+      return {
+        currentlyUsing: [],
+        interestedUsing: [],
+        usingES6: [],
+        yearsExperience: []
+      };
   },
 
   createAnswerEntry: function(answer, key, resultsObject) {
