@@ -18,13 +18,12 @@ var Survey = React.createClass({
   },
 
   componentDidMount: function() {
-    Api
-      .getSurveyResults()
-      .then(function(results) {
+
+      Api.getSurveyResults().then(function(results){
         this.setState({
           results: results
         })
-      }.bind(this))
+      }.bind(this));
   },
 
   render: function() {
