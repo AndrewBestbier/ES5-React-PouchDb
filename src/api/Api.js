@@ -9,7 +9,7 @@ var coloursArray = [{
 }, {
   color: "#46BFBD",
   highlight: "#5AD3D1"
-}]
+}];
 
 module.exports = {
   saveSurvey: function(currentlyUsing, interestedUsing, usingES6, yearsExperience) {
@@ -24,58 +24,66 @@ module.exports = {
     //Todo read up on promises and clean this up
     db.put(submission, function callback(err, result) {
       if (err) {
-        alert("There was a problem submitting this form");
+        window.alert("There was a problem submitting this form");
       } else {
-        alert("Thanks for your submission");
+        window.alert("Thanks for your submission");
       }
     });
   },
 
   getSurveyResults: function() {
-    var resultsObject = this.createEmptyResultsObject();
-
     return db.allDocs({
       include_docs: true
     }).then(function(result) {
-      this.populateResultsObjectWithData(result.rows, resultsObject);
-      return resultsObject;
-    }.bind(this))
+      var docs = result.rows.map(function (row) {return row.doc;});
+      return this.populateResultsObjectWithData(docs);
+    }.bind(this));
   },
 
   createEmptyResultsObject: function(){
-      var emptyResultsObject = {
+      return {
         currentlyUsing: [],
         interestedUsing: [],
         usingES6: [],
         yearsExperience: []
       };
-      return emptyResultsObject;
   },
 
-  populateResultsObjectWithData: function(rows, resultsObject) {
-    _.each(rows, function(row) {
+  getResultKey: function (resultsObject, answer, key) {
+    var result = _.findWhere(resultsObject[key], {
+      label: answer
+    });
+
+    if (result) {
+      return result;
+    }
+
+    return this.createAnswerEntry(answer, key, resultsObject);
+  },
+
+  populateResultsObjectWithData: function(docs) {
+    _.reduce(docs, function (resultsObject, doc) {
       _.each(resultsObject, function(array, key) {
-        var answer = row.doc[key]
+        var answer = doc[key];
 
-        var result = _.findWhere(resultsObject[key], {
-          label: answer
-        });
+        var result = this.getResultKey(resultsObject, answer, key);
+        result.value += 1;
 
-        if (!result) {
-          this.createAnswerEntry(answer, key, resultsObject);
-        } else {
-          result.value += 1;
-        }
-      }, this)
-    }, this)
+      }, this);
+
+      return resultsObject;
+    }, this.createEmptyResultsObject());
   },
 
   createAnswerEntry: function(answer, key, resultsObject) {
-    resultsObject[key].push({
+    var result = {
       label: answer,
-      value: 1,
+      value: 0,
       color: coloursArray[resultsObject[key].length].color,
       highlight: coloursArray[resultsObject[key].length].highlight
-    })
+    };
+
+    resultsObject[key].push(result);
+    return result;
   }
 };
