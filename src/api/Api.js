@@ -4,11 +4,19 @@ var db = new PouchDB('SurveyResults');
 var _ = require('underscore');
 
 var resultsObject = {
-  currentlyUsing: {},
-  interestedUsing: {},
-  usingES6: {},
-  yearsExperience: {}
+  currentlyUsing: [],
+  interestedUsing: [],
+  usingES6: [],
+  yearsExperience: []
 };
+
+var coloursArray = [{
+  color: "#F7464A",
+  highlight: "#FF5A5E"
+}, {
+  color: "#46BFBD",
+  highlight: "#5AD3D1"
+}]
 
 var Api = {
   saveSurvey: function(currentlyUsing, interestedUsing, usingES6, yearsExperience) {
@@ -33,42 +41,41 @@ var Api = {
 
   getSurveyResults: function() {
 
-    return new Promise(function(reject, resolve) {
-
+    return new Promise(function(resolve, reject) {
 
       db.allDocs({
         include_docs: true
       }).then(function(result) {
+
+        //Reducing the array of result objects into a single object in the required format of Chart.js
         return _.reduce(result.rows, function(object, row) {
 
+          //Looping through the keys of 'currentlyUsing', 'interestedUsing' etc
           Object.keys(resultsObject).forEach(function(key) {
-            if (!object[key][row.doc[key]]) {
-              object[key][row.doc[key]] = 1
+
+            //Finding if the particular survey answer already exists in the respective category in our new object already
+            var result = _.findWhere(resultsObject[key], {
+              label: row.doc[key]
+            });
+
+            //If the answer does not exist in this category, then it is pushed. If it does exist, it's value is incremented.
+            if (!result) {
+              //The colours are defined at the top of this module. If these colours are not defined, Chart.js does not function.
+              resultsObject[key].push({
+                label: row.doc[key],
+                value: 1,
+                color: coloursArray[resultsObject[key].length].color,
+                highlight: coloursArray[resultsObject[key].length].highlight
+              })
             } else {
-              object[key][row.doc[key]] += 1;
+              result.value += 1;
             }
           })
-
-          return object;
+          return resolve(object);
         }, resultsObject)
-      }).then(function(resultantObject) {
-
-        /*
-        var wild = Object.keys(resultantObject).map(function(key) {
-          console.log(key);
-          //_.values(obj)
-          return resultantObject[key]
-        });  */
-
-
-
-        //console.log(wild);
-        return resolve(resultantObject);
-      });
-
+      })
     })
   },
-
 };
 
 module.exports = Api;

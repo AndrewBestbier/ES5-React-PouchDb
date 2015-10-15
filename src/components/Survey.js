@@ -15,7 +15,7 @@ var Survey = React.createClass({
 
 		var currentlyUsing = this.refs.currentlyUsing.getValue();
 		var interestedUsing = this.refs.interestedUsing.getValue();
-		var usingES6 = Boolean(this.refs.usingES6.getValue());
+		var usingES6 = this.refs.usingES6.getValue();
 		var yearsExperience = parseInt(this.refs.yearsExperience.getValue());
 
 		Api.saveSurvey(currentlyUsing, interestedUsing, usingES6, yearsExperience);
@@ -34,8 +34,8 @@ var Survey = React.createClass({
 			      <option value="react">React</option>
 			    </Input>
 			    <Input type="select" label="Are you using ES6?" placeholder="select" ref="usingES6">
-			      <option value="true">Yes</option>
-			      <option value="false">No</option>
+			      <option value="yes">Yes</option>
+			      <option value="no">No</option>
 			    </Input>
 			    <Input type="select" label="How many years of Javascript experience do you have?" ref="yearsExperience">
 			      <option value="1">0-1</option>
