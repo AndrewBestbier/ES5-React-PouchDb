@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "NODE_ENV=development supervisor --harmony --ignore build/ -e js server & NODE_ENV=development node hotLoadServer.js",
     "start": "NODE_ENV=production node --harmony server",
-    "lint": "eslint ./",
+    "lint": "jshint ./src",
     "typecheck": "flow",
     "build": "NODE_ENV=production webpack -p --progress --colors",
     "test": "jest"
@@ -43,6 +43,7 @@
     "css-loader": "^0.16.0",
     "eslint": "^0.14.1",
     "jest-cli": "^0.4.0",
+    "jshint": "^2.8.0",
     "react-hot-loader": "^1.0.4",
     "react-tools": "^0.12.2",
     "supervisor": "^0.6.0",
