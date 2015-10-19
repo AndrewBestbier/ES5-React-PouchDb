@@ -8,14 +8,7 @@
     "start": "NODE_ENV=production node --harmony server",
     "lint": "jshint ./src",
     "typecheck": "flow",
-    "build": "NODE_ENV=production webpack -p --progress --colors",
-    "test": "jest"
-  },
-  "jest": {
-    "scriptPreprocessor": "preprocessor.js",
-    "unmockedModulePathPatterns": [
-      "node_modules/react"
-    ]
+    "build": "NODE_ENV=production webpack -p --progress --colors"
   },
   "dependencies": {
     "JSONStream": "^1.0.4",
@@ -48,6 +41,8 @@
     "react-tools": "^0.12.2",
     "supervisor": "^0.6.0",
     "webpack": "^1.5.3",
-    "webpack-dev-server": "^1.7.0"
+    "webpack-dev-server": "^1.7.0",
+    "chai": "*",
+    "mocha": "*"
   }
 }
