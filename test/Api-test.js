@@ -75,7 +75,7 @@ describe('Api', function() {
   describe('Converting Results to usable ChartJs Object ', function() {
     it('should return the desired specified output when given the respective input', function() {
       var result = Api.convertRawDataToChartJsFormat(testInput);
-      assert.equal(JSON.stringify(result), JSON.stringify(expectedResult));
+      assert.deepEqual(result, expectedResult);
     });
   });
 });
